@@ -1,0 +1,19 @@
+{% extends 'master.html' %}
+
+{% block page_title %}
+Products page
+{% endblock %}
+
+
+{% block page_content %}
+    <h1>{{ title }}</h1>
+    <ul class="products-list">
+        {% for itm in products %}
+        <li class="products-list_item">
+            <!--<a href="{{ forloop.counter0 }}" class="products-list_item-link">{{ itm.name }}</a>-->
+            <a href="{% url 'products:detail' pk=itm.id %}" class="products-list_item-link"> {{ itm.name }} </a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

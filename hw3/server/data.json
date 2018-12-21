@@ -1,0 +1,32 @@
+{
+  "products": [
+    {
+    "name": "banana",
+    "description": "this is banana"
+    },
+    {
+    "name": "onion",
+    "description": "this is onion"
+    },
+    {
+    "name": "potato",
+    "description": "this is potato"
+    },
+    {
+    "name": "pineapple",
+    "description": "pineapple"
+    },
+    {
+    "name": "apple",
+    "description": "this is apple"
+    },
+    {
+    "name": "kiwi",
+    "description": "this is kiwi"
+    },
+    {
+    "name": "peach",
+    "description": "this is peach"
+    }
+  ]
+}
