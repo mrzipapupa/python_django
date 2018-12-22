@@ -1,0 +1,18 @@
+{% extends 'master.html' %}
+
+{% block page_title %}
+Products page
+{% endblock %}
+
+
+{% block page_content %}
+    <h1>{{ title }}</h1>
+    <ul>
+        {% for itm in products %}
+        <li>
+            {{ itm|title }}
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

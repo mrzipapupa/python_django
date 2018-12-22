@@ -1,0 +1,15 @@
+{% extends 'master.html' %}
+
+{% block page_title %}
+Main page
+{% endblock %}
+
+{% block page_content %}
+    <h1>{{ title }}</h1>
+    <h2>{{ subtitle }}</h2>
+    {% if is_active %}
+        <h3>{{ username }}</h3>
+    {% else %}
+        <span>{{ username }}</span>
+    {% endif %}
+{% endblock %}
