@@ -1,0 +1,23 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block page_title %}
+Main page
+{% endblock %}
+
+{% block page_styles %}
+    <link rel="stylesheet" href="{% static 'main/index.css' %}">
+{% endblock %}
+
+
+{% block page_content %}
+    <h1 class="page_title">{{ title }}</h1>
+    <h2 class="page_subtitle">{{ subtitle }}</h2>
+    <img src={{ python_img }}> </br>
+    {% if is_active %}
+        <h3>{{ username|title  }}</h3>
+    {% else %}
+        <span>{{ username }}</span>
+    {% endif %}
+{% endblock %}
