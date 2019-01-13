@@ -15,24 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.conf.urls.static import static
-from django.conf import settings
-import main.views
-import products.views
-from django.conf import settings
-from django.conf.urls.static import static
+from django.conf.urls import url
+from .views import list_view,detail_view,ProductCreateView, ProductUpdateView, ProductDeleteView, \
+    products as prd
 
-
-
-
+app_name="products"
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('products/', include('products.urls')),
-    path('accounts/', include('accounts.urls')),
-    path('', include('main.urls')),
-]
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('create/', ProductCreateView.as_view(), name='create'),
+    path('<int:pk>/update/', ProductUpdateView.as_view(), name='update'),
+    path('<int:pk>/delete/', ProductDeleteView.as_view(), name='delete'),
+    # path('categories/', categories_view, name='categories'),
+    path('', list_view, name="index"),
+    path('<int:pk>', detail_view, name="detail"),
+    # url(r'^category/$', categories_view, name='categories')
 
+    # path('', categories_view, name='index'),
+    # path('categories/', list_view, name='categories'),
+]

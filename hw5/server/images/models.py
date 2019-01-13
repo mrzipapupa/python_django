@@ -1,8 +1,8 @@
 from django.db import models
-
+from utility.models import DateTimeManager
 # Create your models here.
 
-class Image(models.Model):
+class Image(DateTimeManager, models.Model):
     name = models.CharField(
         max_length=150
     )
