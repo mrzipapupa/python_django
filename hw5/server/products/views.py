@@ -1,12 +1,11 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.http import Http404
-import json
 from .models import Product, Category
-from .forms import ProductForm
+from basketapp.models import Basket
 from django.views.generic import (
-    CreateView, ListView, DetailView, UpdateView, DeleteView
+    CreateView, UpdateView, DeleteView
 )
+from basketapp.views import get_cost_basket, get_counter_basket
 
 class ProductCreateView(CreateView):
     model = Product
@@ -28,49 +27,30 @@ class ProductDeleteView(DeleteView):
     success_url = reverse_lazy('products:index')
 
 
-def products(request, pk=None):
-    print(pk)
+def list_view(request):
+    title = 'Продукты'
+    basket = []
+    cost = 0
+    counter = 0
 
-    title = 'продукты'
-    links_menu = ProductCategory.objects.all()
+    if request.user.is_authenticated:
+        basket = Basket.objects.filter(user=request.user)
 
-    if pk:
-        if pk == '0':
-            category = {'name': 'все'}
-            products = Product.object.all().order_by('price')
-        else:
-            category = get_object_or_404(ProductCategory, pk=pk)
-            products = Product.objects.filter(category__pk=pk).order_by('price')
+    if basket:
+        counter = get_counter_basket()
+        cost = get_cost_basket()
 
-        content = {
-            'title': title,
-            'links_menu': links_menu,
-            'category': category,
-            'products': products,
-        }
-
-        return render(request, 'products/products_list.html', content)
-
-    same_products = Product.objects.all()[3:5]
+    same_products = Product.objects.all().order_by('cost')
 
     content = {
         'title': title,
-        'links_menu': links_menu,
-        'same_products': same_products
+        'same_products': same_products,
+        'basket': basket,
+        'count': counter,
+        'cost': cost,
     }
 
-    return render(request, 'products/products.html', content)
-
-
-# Create your views here.
-def list_view(request):
-    return render(
-        request,
-        'products/list.html',
-        {
-            'products': get_list_or_404(Product.objects.all())
-        }
-    )
+    return render(request, 'products/list.html', content)
 
 
 def detail_view(request, pk):
@@ -81,5 +61,4 @@ def detail_view(request, pk):
             'object': get_object_or_404(Product, id=pk),
             'title': 'product ' + str(pk)
         }
-
     )

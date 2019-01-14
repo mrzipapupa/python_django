@@ -1,18 +1,53 @@
 {% extends 'master.html' %}
+{% load staticfiles %}
 
 {% block page_title %}
 Products page
 {% endblock %}
 
 
+{% block menu %}
+    <div class="hero-white">
+        <div class="header_clearfix">
+
+
+        </div>
+    </div>
+{% endblock %}
+
 {% block page_content %}
-    <h1>{{ title }}</h1>
-    <ul class="products-list">
-        {% for itm in products %}
-        <li class="products-list_item">
-            <a href="{% url 'products:detail' pk=itm.id %}" class="products-list_item-link"> {{ itm.name }} </a>
-        </li>
-        {% endfor %}
-    </ul>
+    <div class="details">
+        <div class="links_clearfix">
+                {% if basket %}
+                    <br>
+                    В корзине: {{basket|length}} вида(ов) товаров
+                    <br>
+                    {% for itm in basket %}
+                        {{ itm.product }} : {{ itm.quantity}} шт.
+                        <a href="{% url 'basket:remove' itm.product.pk %}">Убрать</a>
+                        <a href="{% url 'basket:add' itm.product.pk %}">Добавить</a>
+                        <br>
+                    {% endfor %}
+                    Всего покупок: {{count}} <br>
+                    На общую сумму: {{cost}} $ <br>
+                {% endif %}
+        </div>
+
+        <div class="products_list">
+            <div class="title_clearfix">
+                <h2>{{ category.name|title }}</h2>
+            </div>
+            <div class="category-products clearfix">
+                <ul class="products-list">
+                    {% for itm in same_products %}
+                        <li class="products-list_item">
+                            <a href="{% url 'products:detail' pk=itm.id%}">{{ itm.name }}</a>
+                            <a href="{% url 'basket:add' itm.pk %}">Добавить</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 

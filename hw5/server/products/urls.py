@@ -16,8 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
-from .views import list_view,detail_view,ProductCreateView, ProductUpdateView, ProductDeleteView, \
-    products as prd
+from .views import list_view,detail_view,ProductCreateView, ProductUpdateView, ProductDeleteView
 
 app_name="products"
 
@@ -26,11 +25,7 @@ urlpatterns = [
     path('create/', ProductCreateView.as_view(), name='create'),
     path('<int:pk>/update/', ProductUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', ProductDeleteView.as_view(), name='delete'),
-    # path('categories/', categories_view, name='categories'),
     path('', list_view, name="index"),
     path('<int:pk>', detail_view, name="detail"),
-    # url(r'^category/$', categories_view, name='categories')
-
-    # path('', categories_view, name='index'),
-    # path('categories/', list_view, name='categories'),
+    url(r'^category/(?P<pk>\d+)/$', list_view, name='category')
 ]
