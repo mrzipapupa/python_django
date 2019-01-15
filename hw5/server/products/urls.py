@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
-from .views import list_view,detail_view,ProductCreateView, ProductUpdateView, ProductDeleteView
+from .views import list_view,detail_view,ProductCreateView, ProductUpdateView, ProductDeleteView, category_view,\
+category_items
 
 app_name="products"
+
 
 
 urlpatterns = [
@@ -27,5 +29,7 @@ urlpatterns = [
     path('<int:pk>/delete/', ProductDeleteView.as_view(), name='delete'),
     path('', list_view, name="index"),
     path('<int:pk>', detail_view, name="detail"),
-    url(r'^category/(?P<pk>\d+)/$', list_view, name='category')
+    url(r'^category/$', category_view, name='category'),
+    url(r'^category/(?P<pk>\d+)/$', category_items, name='category_items'),
 ]
+

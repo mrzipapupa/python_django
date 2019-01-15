@@ -17,12 +17,12 @@ Products page
 
 {% block page_content %}
     <div class="details">
-        <div class="products-list">
+        <div class="categories_list">
             <div class="category-products clearfix">
                 <ul class="products-list">
-                    {% for product in product_list %}
+                    {% for cat in category %}
                         <li class="products-list_item">
-                            {{ product.name }}
+                            <a href="{% url 'products:category_items' cat.pk %}">{{ cat.name }}</a>
                         </li>
                     {% endfor %}
                 </ul>

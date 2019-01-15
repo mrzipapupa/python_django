@@ -27,7 +27,7 @@ class ProductDeleteView(DeleteView):
     success_url = reverse_lazy('products:index')
 
 
-def list_view(request):
+def list_view(request, pk=None):
     title = 'Продукты'
     basket = []
     cost = 0
@@ -40,7 +40,10 @@ def list_view(request):
         counter = get_counter_basket()
         cost = get_cost_basket()
 
-    same_products = Product.objects.all().order_by('cost')
+    if pk:
+        same_products = get_list_or_404(Product.objects.filter(Category__id=pk))
+    else:
+        same_products = Product.objects.all().order_by('cost')
 
     content = {
         'title': title,
@@ -62,3 +65,18 @@ def detail_view(request, pk):
             'title': 'product ' + str(pk)
         }
     )
+
+def category_view(request):
+    categories = get_list_or_404(Category)
+    content = {'category': categories }
+    return render(request, 'products/category_list.html', content)
+
+
+def category_items(request, pk):
+    product_list = get_list_or_404(Product.objects.filter(category_id=pk))
+    title = get_object_or_404(Category, id=pk)
+    content = {
+        'same_products': product_list,
+        'title': title
+    }
+    return render(request, 'products/list.html', content)
