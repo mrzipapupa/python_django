@@ -16,23 +16,6 @@ Products page
 {% endblock %}
 
 {% block page_content %}
-    <div class="details">
-        <div class="links_clearfix">
-                {% if basket %}
-                    <br>
-                    В корзине: {{basket|length}} вида(ов) товаров
-                    <br>
-                    {% for itm in basket %}
-                        {{ itm.product }} : {{ itm.quantity}} шт.
-                        <a href="{% url 'basket:remove' itm.product.pk %}">Убрать</a>
-                        <a href="{% url 'basket:add' itm.product.pk %}">Добавить</a>
-                        <br>
-                    {% endfor %}
-                    Всего покупок: {{count}} <br>
-                    На общую сумму: {{cost}} $ <br>
-                {% endif %}
-        </div>
-
         <div class="products_list">
             <div class="title_clearfix">
                 <h2>{{ title }}</h2>
@@ -42,7 +25,7 @@ Products page
                     {% for itm in same_products %}
                         <li class="products-list_item">
                             <a href="{% url 'products:detail' pk=itm.id%}">{{ itm.name }}</a>
-                            <a href="{% url 'basket:add' itm.pk %}">Добавить</a>
+                            <a href="{% url 'basket:add' itm.pk %}">Добавить в корзину</a>
                         </li>
                     {% endfor %}
                 </ul>

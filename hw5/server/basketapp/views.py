@@ -4,7 +4,22 @@ from products.models import Product
 
 
 def basket(request):
-    content = {}
+    counter, cost = 0, 0
+    basket = []
+
+    if request.user.is_authenticated:
+        basket = Basket.objects.filter(user=request.user)
+
+    if basket:
+        counter = get_counter_basket()
+        cost = get_cost_basket()
+
+    content = {
+        'basket': basket,
+        'count': counter,
+        'cost': cost
+    }
+
     return render(request, 'basketapp/basket.html', content)
 
 
