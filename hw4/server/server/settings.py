@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'main',
     'products',
     'images',
+    'media',
 ]
 
 AUTH_USER_MODEL = 'accounts.AccountUser' # Для регистрации нового вида пользователей
@@ -126,5 +127,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/images/media/images/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'images/media/images')
+MEDIA_URL = '/media/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/images')

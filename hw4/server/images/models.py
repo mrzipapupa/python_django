@@ -6,9 +6,7 @@ class Image(models.Model):
     name = models.CharField(
         max_length=150
     )
-    value = models.ImageField(
-        upload_to='images/media/images/'
-    )
+    value = models.ImageField()
 
 
     @property
