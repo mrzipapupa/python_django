@@ -131,3 +131,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/images')
+LOGIN_URL = 'http://localhost:8000/accounts/login'

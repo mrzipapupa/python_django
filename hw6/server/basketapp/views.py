@@ -1,29 +1,28 @@
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, get_list_or_404
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy, reverse
 from basketapp.models import Basket
 from products.models import Product
 
-
+@login_required
 def basket(request):
-    counter, cost = 0, 0
     basket = []
 
     if request.user.is_authenticated:
         basket = Basket.objects.filter(user=request.user)
 
-    if basket:
-        counter = get_counter_basket()
-        cost = get_cost_basket()
-
     content = {
         'basket': basket,
-        'count': counter,
-        'cost': cost
     }
 
     return render(request, 'basketapp/basket.html', content)
 
 
+@login_required
 def basket_add(request, pk):
+    if 'login' in request.META.get('HTTP_REFERER'):
+        print('2')
+        return HttpResponseRedirect(reverse('products:index', args=[pk]))
     product = get_object_or_404(Product, pk=pk)
     old_basket_item = Basket.objects.filter(user=request.user, product=product)
 
@@ -38,6 +37,7 @@ def basket_add(request, pk):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
+@login_required
 def basket_remove_item(request, pk):
     product = get_object_or_404(Product, pk=pk)
     basket_item = Basket.objects.get(user=request.user, product=product)
@@ -47,28 +47,13 @@ def basket_remove_item(request, pk):
     elif basket_item.quantity == 0:
         basket_item.delete()
         basket_item.save()
-
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def basket_remove_all(request):
-    items = get_list_or_404(Basket.objects.all(user=request.user))
-    for itm in items:
-        itm.delete()
-        itm.save()
+@login_required
+def basket_remove_all(request, pk):
+    basket_record = get_object_or_404(Basket, pk=pk)
+    basket_record.delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def get_cost_basket():
-    cost = 0
-    products = get_list_or_404(Basket.objects.all())
-    for itm in products:
-        cost += itm.quantity * itm.product.cost
-    return cost
-
-
-def get_counter_basket():
-    counter = 0
-    products = get_list_or_404(Basket.objects.all())
-    for itm in products:
-        counter += itm.quantity
-    return counter

@@ -5,7 +5,7 @@ from basketapp.models import Basket
 from django.views.generic import (
     CreateView, UpdateView, DeleteView, ListView, DetailView
 )
-from basketapp.views import get_cost_basket, get_counter_basket
+import random
 
 class ProductCreateView(CreateView):
     model = Product
@@ -33,66 +33,39 @@ class ProductListView(ListView):
     template_name = 'products/list.html'
 
 
+def products(request, pk=None):
+    title = 'Продукты'
+    basket = get_basket(request.user)
+
+    hot_product = get_hot_product()
+    same_products = get_same_products(hot_product)
+
+    content = {
+        'title': title,
+        'hot_product': hot_product,
+        'same_products': same_products,
+        'basket': basket,
+    }
+    return render(request, 'products/list.html', content)
+
+
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'products/detail.html'
 
 
-'''
-def category_items(request, pk):
-    product_list = get_list_or_404(Product.objects.filter(category_id=pk))
-    title = get_object_or_404(Category, id=pk)
-    content = {
-        'same_products': product_list,
-        'title': title
-    }
-    return render(request, 'products/list.html', content)
-'''
-
-''' Больше кастомизации нужно
-class CategoryDetailView(DetailView):
-    model = Category
-    context_object_name = 'same_products'
-    template_name = 'products/list.html'
-'''
-
-
-
-''' СТАРОЕ
-def list_view(request, pk=None):
-    title = 'Продукты'
-
-    if request.user.is_authenticated:
-        basket = Basket.objects.filter(user=request.user)
-
-    if pk:
-        same_products = get_list_or_404(Product.objects.filter(Category__id=pk))
+def get_basket(user):
+    if user.is_authenticated:
+        return Basket.objects.filter(user=user)
     else:
-        same_products = Product.objects.all().order_by('cost')
-
-    content = {
-        'title': title,
-        'same_products': same_products,
-    }
-
-    return render(request, 'products/list.html', content)
-'''
-'''
-def detail_view(request, pk):
-    return render(
-        request,
-        'products/detail.html',
-        {
-            'object': get_object_or_404(Product, id=pk),
-            'title': 'product ' + str(pk)
-        }
-    )
+        return []
 
 
+def get_hot_product():
+    products = Product.objects.all()
+    return random.sample(list(products), 1)[0]
 
-def category_view(request):
-    categories = get_list_or_404(Category)
-    content = {'category': categories }
-    return render(request, 'products/list.html', content)
-'''
 
+def get_same_products(hot_product):
+    same_products = Product.objects.filter(category=hot_product.category).exclude(pk=hot_product.pk)
+    return same_products

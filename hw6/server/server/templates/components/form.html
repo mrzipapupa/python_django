@@ -4,6 +4,10 @@
     {% endfor %}
     
     {% csrf_token %}
+    {% if next %}
+        <input type="hidden" name="next" value="{{ next }}">
+    {% endif %}
+
     {% for field in form %}
         <div class="field-group">
             <label for="{{ field.name }}">{{ field.label }}</label>

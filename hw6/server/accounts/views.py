@@ -11,6 +11,9 @@ def login_view(request):
     success_url = reverse_lazy('main:index')
     title = 'вход'
     form = DefaultLoginForm()
+
+    next = request.GET['next'] if 'next' in request.GET.keys() else ''
+
     if request.method == 'POST':
         form = DefaultLoginForm(data=request.POST)
 
@@ -21,8 +24,13 @@ def login_view(request):
             user = auth.authenticate(username=username, password=password)
             if user and user.is_active:
                 auth.login(request, user)
-                return redirect(success_url)
-    content = {'title': title, 'form': form} # форма с ошибками в случае неуспеха
+                if 'next' in request.POST.keys():
+                    print('1')
+                    return HttpResponseRedirect(request.POST['next'])
+                else:
+                    return HttpResponseRedirect(success_url)
+
+    content = {'title': title, 'form': form, 'next': next} # форма с ошибками в случае неуспеха
     return render(request, 'accounts/login.html', content)
 
 

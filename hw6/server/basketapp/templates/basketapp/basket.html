@@ -25,10 +25,12 @@ Products page
                         {{ itm.product }} : {{ itm.quantity}} шт.
                         <a href="{% url 'basket:remove' itm.product.pk %}">Убрать</a>
                         <a href="{% url 'basket:add' itm.product.pk %}">Добавить</a>
+                        <a href="{% url 'basket:removeall' itm.pk %}">Удалить все</a>
                         <br>
                     {% endfor %}
-                    Всего покупок: {{ count }} шт.<br>
-                    На общую сумму: {{ cost }} $ <br>
+
+                    Всего покупок: {{basket.0.total_quantity }} шт.<br>
+                    На общую сумму: {{ basket.0.total_cost|floatformat:0 }} $<br>
                 {% endif %}
         </div>
 </div>
