@@ -1,0 +1,29 @@
+[
+  {
+    "name": "apple",
+    "category": "Fruits",
+    "description": "This is apple",
+    "cost": 1.25
+  },
+
+  {
+    "name": "potato",
+    "category": "Vegitables",
+    "description": "This is potato",
+    "cost": 1.50
+  },
+
+  {
+    "name": "peach",
+    "category": "Fruits",
+    "description": "This is peach",
+    "cost": 2.00
+  },
+
+  {
+    "name": "carrot",
+    "category": "Vegitables",
+    "description": "This is carrot",
+    "cost": 0.75
+  }
+]

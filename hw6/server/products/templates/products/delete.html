@@ -1,0 +1,18 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block page_title %}
+Delete {{ obj.name }}
+{% endblock %}
+
+{% block page_styles %}
+{% endblock %}
+
+{% block page_content %}
+<form method="POST">
+    {% csrf_token %}
+    <h3> Вы уверены, что хотите удалить {{ object.title }}</h3>
+    <input type="submit">
+</form>
+{% endblock %}
