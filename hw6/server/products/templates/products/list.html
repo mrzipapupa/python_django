@@ -1,0 +1,40 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+
+{% block page_title %}
+Products page
+{% endblock %}
+
+
+{% block menu %}
+    <div class="hero-white">
+        <div class="header_clearfix">
+
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_content %}
+        <div class="products_list">
+            <div class="title_clearfix">
+                <h2>{{ title }}</h2>
+            </div>
+            <div class="category-products clearfix">
+                <ul class="products-list">
+                    ТОЛЬКО СЕГОДНЯ!<br>
+                    <a href="{% url 'products:detail' pk=hot_product.id%}">{{hot_product.name}}</a>
+                    <a href="{% url 'basket:add' hot_product.pk %}">Добавить в корзину</a><br><br>
+                    {% for itm in same_products %}
+                        <li class="products-list_item">
+                            Возможно, вас заинтересует: <br>
+                            <a href="{% url 'products:detail' pk=itm.id%}">{{itm.name}}</a>
+                            <a href="{% url 'basket:add' itm.pk %}">Добавить в корзину</a><br>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

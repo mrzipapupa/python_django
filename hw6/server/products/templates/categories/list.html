@@ -1,0 +1,32 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+
+{% block page_title %}
+Products page
+{% endblock %}
+
+
+{% block menu %}
+    <div class="hero-white">
+        <div class="header_clearfix">
+
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block page_content %}
+    <div class="details">
+        <div class="categories_list">
+            <div class="categories_clearfix">
+                <ul class="categories-list">
+                    {% for cat in category %}
+                        <li class="categories-list_item">
+                            <a href="{% url 'categories:detail' cat.pk %}">{{ cat.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+
+{% block page_title %}
+Products page
+{% endblock %}
+
+
+{% block menu %}
+    <div class="hero-white">
+        <div class="header_clearfix">
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_content %}
+<div class="details">
+        <div class="links_clearfix">
+                {% if basket %}
+                    <br>
+                    В корзине: {{basket|length}} вида(ов) товаров
+                    <br>
+                    {% for itm in basket %}
+                        {{ itm.product }} : {{ itm.quantity}} шт.
+                        <a href="{% url 'basket:remove' itm.product.pk %}">Убрать</a>
+                        <a href="{% url 'basket:add' itm.product.pk %}">Добавить</a>
+                        <a href="{% url 'basket:removeall' itm.pk %}">Удалить все</a>
+                        <br>
+                    {% endfor %}
+
+                    Всего покупок: {{basket.0.total_quantity }} шт.<br>
+                    На общую сумму: {{ basket.0.total_cost|floatformat:0 }} $<br>
+                {% endif %}
+        </div>
+</div>
+{% endblock %}
