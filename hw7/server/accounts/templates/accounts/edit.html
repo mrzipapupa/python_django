@@ -1,0 +1,16 @@
+{% extends 'accounts/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <form action="{% url 'accounts:edit' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ edit_form.as_p }}
+        <input type="submit" value="Сохранить">
+    </form>
+    <button class="btn btn-round form-control last">
+        <a href="{% url 'main:index' %}">На главную</a>
+    </button>
+    <div class="user_avatar">
+        <img src="{{ user.avatar.url }}">
+    </div>
+{% endblock %}

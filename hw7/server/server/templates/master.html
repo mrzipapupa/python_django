@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>{% block page_title %} {% endblock %}</title>
+    {% block page_styles %} {% endblock %}
+</head>
+<body>
+    <h2>{% now "jS F Y H:i" %}</h2>
+    <ul>
+        <li><a href="{% url 'main:index' %}" class="href">Главная</a></li>
+        <li><a href="{% url 'main:about' %}" class="href">О проекте</a></li>
+        <li><a href="{% url 'main:contacts' %}" class="href">Контакты</a></li>
+        <li><a href="{% url 'products:index' %}" class="href">Товары</a></li>
+        <li><a href="{% url 'categories:category' %}" class="href">Категории</a></li>
+        <li><a href="{% url 'basket:view' %}" class="href">Корзина</a></li>
+        <section>
+            {% block menu %} {% endblock %}
+        </section>
+        <section>
+            {% block page_content %} {% endblock %}
+        </section>
+    </ul>
+
+    <ul id="category-list">
+
+    </ul>
+
+    <section>
+        {% block auth_content %} {% endblock %}
+    </section>
+
+    <script>
+        const renderCategories = ({id, name}) => (
+            `
+            <li class="category-list-item">
+                <a href="/categories/${id}" class="category-list-item-name">${name}</a>
+            </li>
+            `
+        )
+    </script>
+
+
+    <script>
+        const categoryList = document.querySelector('#category-list');
+        const categoryUrl = "{% url 'rest_categories:list' %}";
+
+        fetch(categoryUrl)
+            .then(response => response.json())
+            .then(
+                data => {
+                    data.results.map(
+                        itm => categoryList.innerHTML += renderCategories(itm)
+                    )
+                }
+            )
+    </script>
+</body>
+</html>

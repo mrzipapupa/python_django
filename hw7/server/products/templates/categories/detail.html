@@ -1,0 +1,24 @@
+{% extends 'master.html' %}
+
+{% block page_title %}
+Details
+{% endblock %}
+
+{% block page_content %}
+    <h1>{{ title }}</h1>
+    {% if object %}
+        <h1 class="object_name">{{ object.name }}</h1>
+        <span class="object-description">{{ object.description }}</span>
+        <br>
+        {% for itm in products %}
+            <br><a href="{% url 'products:detail' pk=itm.id %}">{{ itm.name }}</a>
+            <a href="{% url 'basket:add' itm.pk %}">Добавить в корзину</a>
+        {% endfor %}
+    {% else %}
+        Category does not exists
+    {% endif %}
+{% endblock %}
+
+
+
+

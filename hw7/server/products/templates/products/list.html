@@ -1,0 +1,73 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+
+{% block page_title %}
+Products page
+{% endblock %}
+
+{% block page_styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'products/list.css' %}">
+{% endblock %}
+
+{% block menu %}
+    <div class="hero-white">
+        <div class="header_clearfix">
+
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_content %}
+        <div class="products_list">
+            <div class="title_clearfix">
+                <h2>{{ title }}</h2>
+            </div>
+            <div class="category-products clearfix">
+                <ul class="products-list">
+                    {% for itm in same_products %}
+                        <li class="products-list_item">
+                            Возможно, вас заинтересует: <br>
+                            <a href="{% url 'products:detail' pk=itm.id%}">{{itm.name}}</a>
+                            <a href="{% url 'basket:add' itm.pk %}">Добавить в корзину</a><br>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+<br>
+
+{% include 'components/pagination.html' with paginator=paginator%}
+
+
+<!--{% if page_obj.has_next %}-->
+    <!--<button class="show-more-button">Show more</button>-->
+<!--{% endif %}-->
+<!--<script src="{% static 'products/product.js' %}"></script>-->
+
+<!--<script>-->
+    <!--const productList = document.querySelector('.products-list');-->
+    <!--const showMoreButton = document.querySelector('.show-more-button');-->
+    <!--let productUrl = '{% url "rest_products:list" %}?page={% if page_obj.has_next %}{{ page_obj.next_page_number }}{% endif %}';-->
+
+    <!--const showMore = () => {-->
+        <!--fetch(productUrl)-->
+            <!--.then(response => response.json())-->
+            <!--.then(-->
+                <!--data => {-->
+                    <!--data.result.map(-->
+                        <!--itm => productList.innerHTML += renderProduct(itm)-->
+                    <!--)-->
+                    <!--if (data.next_url) {-->
+                        <!--productUrl = data.next_url-->
+                    <!--} else {-->
+                        <!--showMoreButton.classList.add('show-more-button_hidden')-->
+                    <!--}-->
+                <!--}-->
+            <!--)-->
+        <!--}-->
+    <!--showMoreButton.addEventListener('click', showMore)-->
+<!--</script>-->
+
+{% endblock %}
+
